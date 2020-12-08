@@ -50,17 +50,17 @@ group = "0.8"
 
 
 [dependencies.zcash_client_backend]
-git = "https://github.com/adityapk00/librustzcash"
-rev = "e12b463b7f7ac4f915a530f46f2dc4d0f9a24cbf"
+git = "https://github.com/yecdev/libyec"
+rev = "3dbb4a8f3e92d3b5d34e964090d364d671aad304"
 
 [dependencies.zcash_primitives]
-git = "https://github.com/adityapk00/librustzcash"
-rev = "e12b463b7f7ac4f915a530f46f2dc4d0f9a24cbf"
+git = "https://github.com/yecdev/libyec"
+rev = "3dbb4a8f3e92d3b5d34e964090d364d671aad304"
 features = ["transparent-inputs"]
 
 [dependencies.zcash_proofs]
-git = "https://github.com/adityapk00/librustzcash"
-rev = "e12b463b7f7ac4f915a530f46f2dc4d0f9a24cbf"
+git = "https://github.com/yecdev/libyec"
+rev = "3dbb4a8f3e92d3b5d34e964090d364d671aad304"
 features = ["multicore"]
 
 [build-dependencies]

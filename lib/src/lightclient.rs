@@ -40,9 +40,9 @@ use crate::ANCHOR_OFFSET;
 
 mod checkpoints;
 
-pub const DEFAULT_SERVER: &str = "https://lightwalletd.zecwallet.co:1443";
-pub const WALLET_NAME: &str    = "zecwallet-light-wallet.dat";
-pub const LOGFILE_NAME: &str   = "zecwallet-light-wallet.debug.log";
+pub const DEFAULT_SERVER: &str = "https://lightwalletd2.ycash.xyz:1443";
+pub const WALLET_NAME: &str    = "yecshell_wallet.dat";
+pub const LOGFILE_NAME: &str   = "yecshell_debug.log";
 
 #[derive(Clone, Debug)]
 pub struct WalletStatus {
@@ -145,13 +145,13 @@ impl LightClientConfig {
         } else {
             if cfg!(target_os="macos") || cfg!(target_os="windows") {
                 zcash_data_location = dirs::data_dir().expect("Couldn't determine app data directory!");
-                zcash_data_location.push("Zcash");
+                zcash_data_location.push("Ycash");
             } else {
                 if dirs::home_dir().is_none() {
                     info!("Couldn't determine home dir!");
                 }
                 zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
-                zcash_data_location.push(".zcash");
+                zcash_data_location.push(".ycash");
             };
 
             match &self.chain_name[..] {
@@ -1583,7 +1583,7 @@ impl LightClient {
 
         // First, get the concensus branch ID
         let branch_id = self.consensus_branch_id();
-
+        info!("{}", branch_id);
         info!("Creating transaction");
 
         let result = {

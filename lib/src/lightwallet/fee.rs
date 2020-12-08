@@ -1,7 +1,7 @@
 // Implementation of Zcash ZIP-313 that changes the default network fee with the Canopy Upgrade.
 // See https://github.com/zcash/zips/blob/2719212839358a342d5c23b4063b6bd4b5223690/zip-reduce-shielded_tx_fee.rst
 
-use zcash_primitives::consensus::{MAIN_NETWORK, NetworkUpgrade, Parameters};
+use zcash_primitives::consensus::{MAIN_NETWORK, NetworkUpgrade, Parameters, BlockHeight};
 
 const PRE_CANOPY_DEFAULT_FEE: u64 = 10_000;
 const POST_CANOPY_DEFAULT_FEE: u64 = 1_000;
@@ -9,7 +9,13 @@ const ZIP313_GRACE_PERIOD_BLOCKS:u64 = 33_600;
 
 // Return the default network fee at a given height. 
 pub fn get_default_fee(height: i32) -> u64 {
-  let canopy_height: u64 = MAIN_NETWORK.activation_height(NetworkUpgrade::Canopy).unwrap().into();
+  let canopy_height_option: Option<BlockHeight> = MAIN_NETWORK.activation_height(NetworkUpgrade::Canopy);
+  if canopy_height_option.is_none() {
+    println!("yesss!!!");
+    return POST_CANOPY_DEFAULT_FEE
+  }
+  println!("oh no!");
+  let canopy_height: u64 = canopy_height_option.unwrap().into();
   if height as u64 >= ZIP313_GRACE_PERIOD_BLOCKS + canopy_height {
     POST_CANOPY_DEFAULT_FEE
   } else {
