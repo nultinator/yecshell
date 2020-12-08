@@ -694,7 +694,7 @@ checksum = "bb1f6b1ce1c140482ea30ddd3335fc0024ac7ee112895426e0a629a6c20adfe3"
 [[package]]
 name = "equihash"
 version = "0.1.0"
-source = "git+https://github.com/yecdev/libyec?rev=3dbb4a8f3e92d3b5d34e964090d364d671aad304#3dbb4a8f3e92d3b5d34e964090d364d671aad304"
+source = "git+https://github.com/yecdev/libyec?rev=e3c36e53a6f4a415e17e86e068690480285de9f5#e3c36e53a6f4a415e17e86e068690480285de9f5"
 dependencies = [
  "blake2b_simd",
  "byteorder",
@@ -3090,7 +3090,7 @@ dependencies = [
 [[package]]
 name = "zcash_client_backend"
 version = "0.4.0"
-source = "git+https://github.com/yecdev/libyec?rev=3dbb4a8f3e92d3b5d34e964090d364d671aad304#3dbb4a8f3e92d3b5d34e964090d364d671aad304"
+source = "git+https://github.com/yecdev/libyec?rev=e3c36e53a6f4a415e17e86e068690480285de9f5#e3c36e53a6f4a415e17e86e068690480285de9f5"
 dependencies = [
  "base64 0.12.3",
  "bech32",
@@ -3111,7 +3111,7 @@ dependencies = [
 [[package]]
 name = "zcash_primitives"
 version = "0.4.0"
-source = "git+https://github.com/adityapk00/librustzcash?rev=e12b463b7f7ac4f915a530f46f2dc4d0f9a24cbf#e12b463b7f7ac4f915a530f46f2dc4d0f9a24cbf"
+source = "git+https://github.com/yecdev/libyec?rev=e3c36e53a6f4a415e17e86e068690480285de9f5#e3c36e53a6f4a415e17e86e068690480285de9f5"
 dependencies = [
  "aes",
  "bitvec",
@@ -3139,7 +3139,7 @@ dependencies = [
 [[package]]
 name = "zcash_proofs"
 version = "0.4.0"
-source = "git+https://github.com/yecdev/libyec?rev=3dbb4a8f3e92d3b5d34e964090d364d671aad304#3dbb4a8f3e92d3b5d34e964090d364d671aad304"
+source = "git+https://github.com/yecdev/libyec?rev=e3c36e53a6f4a415e17e86e068690480285de9f5#e3c36e53a6f4a415e17e86e068690480285de9f5"
 dependencies = [
  "bellman",
  "blake2b_simd",

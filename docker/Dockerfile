@@ -36,10 +36,10 @@ RUN cd /opt && wget https://download.libsodium.org/libsodium/releases/libsodium-
 RUN apt install -y git
 
 # Cargo fetch the dependencies so we don't download them over and over again
-RUN cd /tmp && git clone https://github.com/adityapk00/zecwallet-light-cli.git && \
-    cd zecwallet-light-cli && \
+RUN cd /tmp && git clone https://github.com/yecdev/yecshell.git && \
+    cd yecshell && \
     cargo fetch && \
-    cd /tmp && rm -rf zecwallet-light-cli
+    cd /tmp && rm -rf yecshell
 
 # This is a bug fix for the windows cross compiler for Rust.
 RUN cp /usr/x86_64-w64-mingw32/lib/crt2.o  /root/.rustup/toolchains/1.46.0-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-gnu/crt2.o
