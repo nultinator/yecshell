@@ -578,10 +578,10 @@ impl Command for SendCommand {
         let mut h = vec![];
         h.push("Send YEC to a given address(es)");
         h.push("Usage:");
-        h.push("send <address> <amount in zatoshis || \"entire-verified-zbalance\"> \"optional_memo\"");
+        h.push("send <address> <amount in yoshis || \"entire-verified-zbalance\"> \"optional_memo\"");
         h.push("OR");
-        h.push("send '[{'address': <address>, 'amount': <amount in zatoshis>, 'memo': <optional memo>}, ...]'");
-        h.push("");
+        h.push("send '[{'address': <address>, 'amount': <amount in yoshis>, 'memo': <optional memo>}, ...]'");
+        h.push("");y 
         h.push("NOTE: The fee required to send this transaction (currently YEC 0.00001) is additionally deducted from your balance.");
         h.push("Example:");
         h.push("send ytestsapling1x65nq4dgp0qfywgxcwk9n0fvm4fysmapgr2q00p85ju252h6l7mmxu2jg9cqqhtvzd69jwhgv8d 200000 \"Hello from the command line\"");
@@ -888,7 +888,7 @@ struct DefaultFeeCommand {}
 impl Command for DefaultFeeCommand {
     fn help(&self)  -> String {
         let mut h = vec![];
-        h.push("Returns the default fee in zats for outgoing transactions");
+        h.push("Returns the default fee in yoshis for outgoing transactions");
         h.push("Usage:");
         h.push("defaultfee <optional_block_height>");
         h.push("");
