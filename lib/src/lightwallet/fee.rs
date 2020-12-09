@@ -24,7 +24,7 @@ pub fn get_default_fee(height: i32) -> u64 {
 #[cfg(test)]
 pub mod tests {
   use zcash_primitives::consensus::{MAIN_NETWORK, NetworkUpgrade, Parameters};
-  use super::{POST_CANOPY_DEFAULT_FEE, PRE_CANOPY_DEFAULT_FEE, ZIP313_GRACE_PERIOD_BLOCKS, get_default_fee};
+  //use super::{POST_CANOPY_DEFAULT_FEE, PRE_CANOPY_DEFAULT_FEE, ZIP313_GRACE_PERIOD_BLOCKS, get_default_fee};
 
   #[test]
   pub fn test_fees() {
