@@ -52,16 +52,16 @@ group = "0.8"
 
 [dependencies.zcash_client_backend]
 git = "https://github.com/yecdev/libyec"
-rev = "e3c36e53a6f4a415e17e86e068690480285de9f5"
+rev = "fd91008b3a46bdab314ce7f7a1a52be53a00a59c"
 
 [dependencies.zcash_primitives]
 git = "https://github.com/yecdev/libyec"
-rev = "e3c36e53a6f4a415e17e86e068690480285de9f5"
+rev = "fd91008b3a46bdab314ce7f7a1a52be53a00a59c"
 features = ["transparent-inputs"]
 
 [dependencies.zcash_proofs]
 git = "https://github.com/yecdev/libyec"
-rev = "e3c36e53a6f4a415e17e86e068690480285de9f5"
+rev = "fd91008b3a46bdab314ce7f7a1a52be53a00a59c"
 features = ["multicore"]
 
 [build-dependencies]
