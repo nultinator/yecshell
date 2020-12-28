@@ -40,8 +40,8 @@ use crate::ANCHOR_OFFSET;
 mod checkpoints;
 
 pub const DEFAULT_SERVER: &str = "https://lightwalletd2.ycash.xyz:1443";
-pub const WALLET_NAME: &str    = "yecshell_wallet.dat";
-pub const LOGFILE_NAME: &str   = "yecshell_debug.log";
+pub const DEFAULT_WALLET_FILENAME: &str    = "lite_wallet.dat";
+pub const DEFAULT_LOG_FILENAME: &str   = "lite_debug.log";
 
 #[derive(Clone, Debug)]
 pub struct WalletStatus {
@@ -66,7 +66,9 @@ pub struct LightClientConfig {
     pub chain_name                  : String,
     pub sapling_activation_height   : u64,
     pub anchor_offset               : u32,
-    pub data_dir                    : Option<String>
+    pub data_dir                    : Option<String>,
+    pub wallet_filename             : Option<String>,
+    pub log_filename                : Option<String>,
 }
 
 impl LightClientConfig {
@@ -79,10 +81,13 @@ impl LightClientConfig {
             sapling_activation_height   : 0,
             anchor_offset               : ANCHOR_OFFSET,
             data_dir                    : dir,
+            wallet_filename             : Some(DEFAULT_WALLET_FILENAME.to_string()),
+            log_filename                : Some(DEFAULT_LOG_FILENAME.to_string()),
         }
     }
 
-    pub fn create(server: http::Uri) -> io::Result<(LightClientConfig, u64)> {
+    pub fn create(server: http::Uri, datadir: Option<String>, wallet_filename: Option<String>,
+         log_filename: Option<String>) -> io::Result<(LightClientConfig, u64)> {
         use std::net::ToSocketAddrs;
         // Test for a connection first
         format!("{}:{}", server.host().unwrap(), server.port().unwrap())
@@ -100,7 +105,9 @@ impl LightClientConfig {
             chain_name                  : info.chain_name,
             sapling_activation_height   : info.sapling_activation_height,
             anchor_offset               : ANCHOR_OFFSET,
-            data_dir                    : None,
+            data_dir                    : datadir,
+            wallet_filename             : wallet_filename,
+            log_filename                : log_filename,
         };
 
         Ok((config, info.block_height))
@@ -200,8 +207,11 @@ impl LightClientConfig {
 
     pub fn get_wallet_path(&self) -> Box<Path> {
         let mut wallet_location = self.get_zcash_data_path().into_path_buf();
-        wallet_location.push(WALLET_NAME);
-        
+        if self.wallet_filename.is_some() {
+            wallet_location.push(self.wallet_filename.clone().unwrap().as_str());
+        } else {
+            wallet_location.push(DEFAULT_WALLET_FILENAME);
+        }
         wallet_location.into_boxed_path()
     }
 
@@ -226,7 +236,11 @@ impl LightClientConfig {
 
     pub fn get_log_path(&self) -> Box<Path> {
         let mut log_path = self.get_zcash_data_path().into_path_buf();
-        log_path.push(LOGFILE_NAME);
+        if self.log_filename.is_some() {
+            log_path.push(self.log_filename.clone().unwrap().to_string());
+        } else {
+            log_path.push(DEFAULT_LOG_FILENAME);
+        }
 
         log_path.into_boxed_path()
     }

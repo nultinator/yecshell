@@ -44,6 +44,21 @@ macro_rules! configure_clapapp {
                 .help("Lightwalletd server to connect to.")
                 .takes_value(true)
                 .default_value(lightclient::DEFAULT_SERVER))
+            .arg(Arg::with_name("datadir")
+                .long("datadir")
+                .value_name("datadir")
+                .help("Directory containing wallet file and log file.")
+                .takes_value(true))
+            .arg(Arg::with_name("wallet")
+                .long("wallet")
+                .value_name("wallet")
+                .help("File name of wallet dat file.")
+                .takes_value(true))
+            .arg(Arg::with_name("log")
+                .long("log")
+                .value_name("log")
+                .help("File name of log file.")
+                .takes_value(true))
             .arg(Arg::with_name("COMMAND")
                 .help("Command to execute. If a command is not specified, zecwallet-cli will start in interactive mode.")
                 .required(false)
@@ -77,10 +92,13 @@ pub fn report_permission_error() {
     }
 }
 
-pub fn startup(server: http::Uri, seed: Option<String>, birthday: u64, first_sync: bool, print_updates: bool)
+pub fn startup(server: http::Uri, seed: Option<String>, birthday: u64, first_sync: bool, 
+    datadir: Option<String>, wallet_filename: Option<String>, log_filename: Option<String>,
+    print_updates: bool)
         -> io::Result<(Sender<(String, Vec<String>)>, Receiver<String>)> {
     // Try to get the configuration
-    let (config, latest_block_height) = LightClientConfig::create(server.clone())?;
+    let (config, latest_block_height) = LightClientConfig::create(server.clone(),
+     datadir, wallet_filename, log_filename)?;
 
     let lightclient = match seed {
         Some(phrase) => Arc::new(LightClient::new_from_phrase(phrase, &config, birthday, false)?),
@@ -103,7 +121,12 @@ pub fn startup(server: http::Uri, seed: Option<String>, birthday: u64, first_syn
     info!("Light Client config {:?}", config);
 
     if print_updates {
-        println!("Lightclient connecting to {}", config.server);
+        println!("Welcome!");
+        println!("Wallet file: {}", config.get_wallet_path().display());
+        println!("Log file: {}", config.get_log_path().display());
+        println!("Connecting to {}", config.server);
+
+
     }
 
     // At startup, run a sync.
@@ -242,6 +265,8 @@ pub fn attempt_recover_seed(password: Option<String>) {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,  
     };
 
     match LightClient::attempt_recover_seed(&config, password) {

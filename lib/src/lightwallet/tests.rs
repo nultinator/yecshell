@@ -774,6 +774,8 @@ fn get_test_config() -> LightClientConfig {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,
     }
 }
 
@@ -785,6 +787,8 @@ fn get_main_config() -> LightClientConfig {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,
     }
 }
 
@@ -835,6 +839,8 @@ fn test_unconfirmed_txns() {
         sapling_activation_height: 0,
         anchor_offset: 5, // offset = 5
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,
     };
 
     let fee: u64 = DEFAULT_FEE.try_into().unwrap();
@@ -2532,6 +2538,8 @@ fn test_t_z_derivation() {
         sapling_activation_height: 0,
         anchor_offset: 1,
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,
     };
 
     let seed_phrase = Some("bulk pepper cause fun time expect flavor crunch walk lend core target team cousin trouble swallow arctic gift unfair come acid measure novel hollow".to_string());
@@ -2687,6 +2695,8 @@ fn test_import_birthday_adjust() {
         sapling_activation_height: 5,
         anchor_offset: 0,
         data_dir: None,
+        wallet_filename: None,
+        log_filename: None,
     };
 
     let privkey = "secret-extended-key-main1q0p44m9zqqqqpqyxfvy5w2vq6ahvxyrwsk2w4h2zleun4cft4llmnsjlv77lhuuknv6x9jgu5g2clf3xq0wz9axxxq8klvv462r5pa32gjuj5uhxnvps6wsrdg6xll05unwks8qpgp4psmvy5e428uxaggn4l29duk82k3sv3njktaaj453fdmfmj2fup8rls4egqxqtj2p5a3yt4070khn99vzxj5ag5qjngc4v2kq0ctl9q2rpc2phu4p3e26egu9w88mchjf83sqgh3cev";

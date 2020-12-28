@@ -293,6 +293,8 @@ pub mod tests {
       sapling_activation_height: 0,
       anchor_offset: 0,
       data_dir: None,
+      wallet_filename: None,
+      log_filename: None,
     }
   }
 
