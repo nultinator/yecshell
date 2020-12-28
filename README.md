@@ -15,7 +15,7 @@ Run `yecshell help` to see a list of all commands.
 
 ## Notes:
 * If you want to run your own server, please see [lightwalletd](https://github.com/yecdev/lightwalletd), and then run `./yecshell --server http://127.0.0.1:9067`.
-* The log file is in `~/.zcash/zecwallet-light-wallet.debug.log`. Wallet is stored in `~/.zcash/zecwallet-light-wallet.dat`
+* The log file is in `~/.zcash/yecshell_debug.log`. Wallet is stored in `~/.ycash/yecshell_wallet.dat`
 
 ### Note Management
 YecShell does automatic note and utxo management, which means it doesn't allow you to manually select which address to send outgoing transactions from. It follows these principles:
