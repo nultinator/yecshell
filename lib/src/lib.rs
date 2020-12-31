@@ -15,7 +15,7 @@ pub struct SaplingParams;
 #[folder = "res/"]
 pub struct PubCertificate;
 
-pub const ANCHOR_OFFSET: u32 = 4;
+pub const ANCHOR_OFFSET: u32 = 1;
 
 pub mod grpc_client {
     tonic::include_proto!("cash.z.wallet.sdk.rpc");
