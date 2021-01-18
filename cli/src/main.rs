@@ -9,6 +9,7 @@ use log::error;
 
 pub const DEFAULT_YECSHELL_WALLET_FILENAME: &str    = "yecshell_wallet.dat";
 pub const DEFAULT_YECSHELL_LOG_FILENAME: &str   = "yecshell_debug.log";
+pub const DEFAULT_APP_DIR: &str   = "yecshell";
 
 pub fn main() {
     // Get command line arguments
@@ -31,6 +32,7 @@ pub fn main() {
     let seed           = matches.value_of("seed").map(|s| s.to_string());
     let maybe_birthday = matches.value_of("birthday");
     let datadir = matches.value_of("datadir").map(|s| s.to_string());
+    let mut appdir = matches.value_of("appdir").map(|s| s.to_string());
     let mut wallet_filename = matches.value_of("wallet").map(|s| s.to_string());
     let mut log_filename = matches.value_of("log").map(|s| s.to_string());
     
@@ -63,9 +65,12 @@ pub fn main() {
     if log_filename.is_none() {
         log_filename = Some(DEFAULT_YECSHELL_LOG_FILENAME.to_string());
     }
+    if appdir.is_none() {
+        appdir = Some(DEFAULT_APP_DIR.to_string());
+    }
 
     let nosync = matches.is_present("nosync");
-    let (command_tx, resp_rx) = match startup(server, seed, birthday, !nosync, datadir, wallet_filename, log_filename, command.is_none()) {
+    let (command_tx, resp_rx) = match startup(server, seed, birthday, !nosync, datadir, appdir, wallet_filename, log_filename, command.is_none()) {
         Ok(c) => c,
         Err(e) => {
             let emsg = format!("Error during startup:{}\nIf you repeatedly run into this issue, you might have to restore your wallet from your seed phrase.", e);

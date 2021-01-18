@@ -774,6 +774,7 @@ fn get_test_config() -> LightClientConfig {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,
     }
@@ -787,6 +788,7 @@ fn get_main_config() -> LightClientConfig {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,
     }
@@ -839,6 +841,7 @@ fn test_unconfirmed_txns() {
         sapling_activation_height: 0,
         anchor_offset: 5, // offset = 5
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,
     };
@@ -2538,6 +2541,7 @@ fn test_t_z_derivation() {
         sapling_activation_height: 0,
         anchor_offset: 1,
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,
     };
@@ -2695,6 +2699,7 @@ fn test_import_birthday_adjust() {
         sapling_activation_height: 5,
         anchor_offset: 0,
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,
     };

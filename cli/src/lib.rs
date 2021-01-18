@@ -47,7 +47,12 @@ macro_rules! configure_clapapp {
             .arg(Arg::with_name("datadir")
                 .long("datadir")
                 .value_name("datadir")
-                .help("Directory containing wallet file and log file.")
+                .help("Directory containing application-specific subdirectory.")
+                .takes_value(true))
+            .arg(Arg::with_name("appdir")
+                .long("appdir")
+                .value_name("appdir")
+                .help("Application-specific subdirectory in data directory containing wallet file and log file.")
                 .takes_value(true))
             .arg(Arg::with_name("wallet")
                 .long("wallet")
@@ -93,12 +98,12 @@ pub fn report_permission_error() {
 }
 
 pub fn startup(server: http::Uri, seed: Option<String>, birthday: u64, first_sync: bool, 
-    datadir: Option<String>, wallet_filename: Option<String>, log_filename: Option<String>,
+    datadir: Option<String>, appdir: Option<String>, wallet_filename: Option<String>, log_filename: Option<String>,
     print_updates: bool)
         -> io::Result<(Sender<(String, Vec<String>)>, Receiver<String>)> {
     // Try to get the configuration
     let (config, latest_block_height) = LightClientConfig::create(server.clone(),
-     datadir, wallet_filename, log_filename)?;
+     datadir, appdir, wallet_filename, log_filename)?;
 
     let lightclient = match seed {
         Some(phrase) => Arc::new(LightClient::new_from_phrase(phrase, &config, birthday, false)?),
@@ -265,6 +270,7 @@ pub fn attempt_recover_seed(password: Option<String>) {
         sapling_activation_height: 0,
         anchor_offset: 0,
         data_dir: None,
+        app_dir: None,
         wallet_filename: None,
         log_filename: None,  
     };

@@ -67,6 +67,7 @@ pub struct LightClientConfig {
     pub sapling_activation_height   : u64,
     pub anchor_offset               : u32,
     pub data_dir                    : Option<String>,
+    pub app_dir                     : Option<String>,
     pub wallet_filename             : Option<String>,
     pub log_filename                : Option<String>,
 }
@@ -74,7 +75,7 @@ pub struct LightClientConfig {
 impl LightClientConfig {
 
     // Create an unconnected (to any server) config to test for local wallet etc...
-    pub fn create_unconnected(chain_name: String, dir: Option<String>, wallet_filename: Option<String>,
+    pub fn create_unconnected(chain_name: String, dir: Option<String>, app_dir: Option<String>, wallet_filename: Option<String>,
         log_filename: Option<String>) -> LightClientConfig {
         LightClientConfig {
             server                      : http::Uri::default(),
@@ -82,12 +83,13 @@ impl LightClientConfig {
             sapling_activation_height   : 0,
             anchor_offset               : ANCHOR_OFFSET,
             data_dir                    : dir,
+            app_dir                     : app_dir,
             wallet_filename             : wallet_filename,
             log_filename                : log_filename,
         }
     }
 
-    pub fn create(server: http::Uri, datadir: Option<String>, wallet_filename: Option<String>,
+    pub fn create(server: http::Uri, datadir: Option<String>, appdir: Option<String>, wallet_filename: Option<String>,
          log_filename: Option<String>) -> io::Result<(LightClientConfig, u64)> {
         use std::net::ToSocketAddrs;
         // Test for a connection first
@@ -107,6 +109,7 @@ impl LightClientConfig {
             sapling_activation_height   : info.sapling_activation_height,
             anchor_offset               : ANCHOR_OFFSET,
             data_dir                    : datadir,
+            app_dir                     : appdir,
             wallet_filename             : wallet_filename,
             log_filename                : log_filename,
         };
@@ -152,7 +155,12 @@ impl LightClientConfig {
         } else {
             if cfg!(target_os="macos") || cfg!(target_os="windows") {
                 zcash_data_location = dirs::data_dir().expect("Couldn't determine app data directory!");
-                zcash_data_location.push("Ycash");
+                if self.app_dir.is_some() {
+                    zcash_data_location.push(&self.app_dir.as_ref().unwrap());
+                } else {
+                    zcash_data_location.push("Ycash");
+                }
+                
             } else {
                 if dirs::home_dir().is_none() {
                     info!("Couldn't determine home dir!");
@@ -424,7 +432,7 @@ impl LightClient {
     /// Method to create a test-only version of the LightClient
     #[allow(dead_code)]
     pub fn unconnected(seed_phrase: String, dir: Option<String>) -> io::Result<Self> {
-        let config = LightClientConfig::create_unconnected("test".to_string(), dir, None, None);
+        let config = LightClientConfig::create_unconnected("test".to_string(), dir, None, None, None);
         let mut l = LightClient {
                 wallet          : Arc::new(RwLock::new(LightWallet::new(Some(seed_phrase), &config, 0)?)),
                 config          : config.clone(),
@@ -1689,7 +1697,7 @@ pub mod tests {
         use crate::lightclient::{WalletStatus, LightWallet};
 
         // When creating a new wallet, there is only 1 address
-        let config = LightClientConfig::create_unconnected("test".to_string(), None, None, None);
+        let config = LightClientConfig::create_unconnected("test".to_string(), None, None, None, None);
         let lc = LightClient {
             wallet          : Arc::new(RwLock::new(LightWallet::new(None, &config, 0).unwrap())),
             config          : config,
@@ -1714,7 +1722,7 @@ pub mod tests {
             let dir_name = tmp.path().to_str().map(|s| s.to_string());
 
             // A lightclient to a new, empty directory works.
-            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None);
+            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None, None);
             let lc = LightClient::new(&config, 0).unwrap();
             let seed = lc.do_seed_phrase().unwrap()["seed"].as_str().unwrap().to_string();
             lc.do_save().unwrap();
@@ -1736,7 +1744,7 @@ pub mod tests {
             let tmp = TempDir::new("lctest").unwrap();
             let dir_name = tmp.path().to_str().map(|s| s.to_string());
 
-            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None);
+            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None, None);
 
             // read_from_disk will fail, because the dir doesn't exist
             assert!(LightClient::read_from_disk(&config).is_err());
@@ -1759,7 +1767,7 @@ pub mod tests {
             let dir_name = tmp.path().to_str().map(|s| s.to_string());
 
             // A lightclient to a new, empty directory works.
-            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None);
+            let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None, None);
             let lc = LightClient::new(&config, 0).unwrap();
             let seed = lc.do_seed_phrase().unwrap()["seed"].as_str().unwrap().to_string();
             lc.do_save().unwrap();
@@ -1780,7 +1788,7 @@ pub mod tests {
         let tmp = TempDir::new("lctest").unwrap();
         let dir_name = tmp.path().to_str().map(|s| s.to_string());
 
-        let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None);
+        let config = LightClientConfig::create_unconnected("test".to_string(), dir_name, None, None, None);
         let mut lc = LightClient::new(&config, 0).unwrap();
 
         use crate::SaplingParams;
