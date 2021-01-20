@@ -162,13 +162,14 @@ impl LightClientConfig {
                 }
                 
             } else {
-                if dirs::home_dir().is_none() {
-                    info!("Couldn't determine home dir!");
-                }
-                zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
                 if self.app_dir.is_some() {
-                    zcash_data_location.push(".".to_string() +  &self.app_dir.as_ref().unwrap());
+                    zcash_data_locaton = dirs::data_dir().expect("Couldn't determine app data directory!");
+                    zcash_data_location.push(&self.app_dir.as_ref().unwrap());
                 } else {
+                    if dirs::home_dir().is_none() {
+                        info!("Couldn't determine home dir!");
+                    }
+                    zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
                     zcash_data_location.push(".ycash");
                 }
             };
