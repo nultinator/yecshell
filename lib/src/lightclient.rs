@@ -166,7 +166,11 @@ impl LightClientConfig {
                     info!("Couldn't determine home dir!");
                 }
                 zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
-                zcash_data_location.push(".ycash");
+                if self.app_dir.is_some() {
+                    zcash_data_location.push(".".to_string() +  &self.app_dir.as_ref().unwrap());
+                } else {
+                    zcash_data_location.push(".ycash");
+                }
             };
 
             match &self.chain_name[..] {
