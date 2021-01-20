@@ -163,7 +163,7 @@ impl LightClientConfig {
                 
             } else {
                 if self.app_dir.is_some() {
-                    zcash_data_locaton = dirs::data_dir().expect("Couldn't determine app data directory!");
+                    zcash_data_location = dirs::data_dir().expect("Couldn't determine app data directory!");
                     zcash_data_location.push(&self.app_dir.as_ref().unwrap());
                 } else {
                     if dirs::home_dir().is_none() {
