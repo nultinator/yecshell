@@ -25,8 +25,6 @@ use crate::{grpc_connector::GrpcConnector, lightclient::checkpoints};
 pub const DEFAULT_SERVER: &str = "https://lightwalletd2.ycash.xyz:1443";
 pub const DEFAULT_WALLET_FILENAME: &str    = "lite_wallet.dat";
 pub const DEFAULT_LOG_FILENAME: &str   = "lite_debug.log";
-pub const WALLET_NAME: &str = "lite_wallet.dat";
-pub const LOGFILE_NAME: &str = "lite_debug.log";
 pub const ANCHOR_OFFSET: [u32; 5] = [4, 0, 0, 0, 0];
 pub const MAX_REORG: usize = 100;
 pub const GAP_RULE_UNUSED_ADDRESSES: usize = if cfg!(any(target_os = "ios", target_os = "android")) {
@@ -154,13 +152,22 @@ impl LightClientConfig {
             } else {
                 if cfg!(target_os = "macos") || cfg!(target_os = "windows") {
                     zcash_data_location = dirs::data_dir().expect("Couldn't determine app data directory!");
-                    zcash_data_location.push("Zcash");
-                } else {
-                    if dirs::home_dir().is_none() {
-                        info!("Couldn't determine home dir!");
+                    if self.app_dir.is_some() {
+                        zcash_data_location.push(&self.app_dir.as_ref().unwrap());
+                    } else {
+                        zcash_data_location.push("Ycash");
                     }
-                    zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
-                    zcash_data_location.push(".zcash");
+                } else {
+                    if self.app_dir.is_some() {
+                        zcash_data_location = dirs::data_dir().expect("Couldn't determine app data directory!");
+                        zcash_data_location.push(&self.app_dir.as_ref().unwrap());
+                    } else {
+                        if dirs::home_dir().is_none() {
+                            info!("Couldn't determine home dir!");
+                        }
+                        zcash_data_location = dirs::home_dir().expect("Couldn't determine home directory!");
+                        zcash_data_location.push(".ycash");
+                    }
                 };
 
                 match &self.chain_name[..] {
@@ -215,7 +222,7 @@ impl LightClientConfig {
 
     pub fn get_wallet_path(&self) -> Box<Path> {
         let mut wallet_location = self.get_zcash_data_path().into_path_buf();
-        wallet_location.push(WALLET_NAME);
+        wallet_location.push(DEFAULT_WALLET_FILENAME);
 
         wallet_location.into_boxed_path()
     }
@@ -247,7 +254,7 @@ impl LightClientConfig {
 
     pub fn get_log_path(&self) -> Box<Path> {
         let mut log_path = self.get_zcash_data_path().into_path_buf();
-        log_path.push(LOGFILE_NAME);
+        log_path.push(DEFAULT_LOG_FILENAME);
         //println!("LogFile:\n{}", log_path.to_str().unwrap());
 
         log_path.into_boxed_path()

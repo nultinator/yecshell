@@ -69,9 +69,9 @@ pub fn main() {
     if log_filename.is_none() {
         log_filename = Some(DEFAULT_YECSHELL_LOG_FILENAME.to_string());
     }
-    if appdir.is_none() {
+    /*if appdir.is_none() {
         appdir = Some(DEFAULT_APP_DIR.to_string());
-    }
+    }*/
 
     let nosync = matches.is_present("nosync");
 
