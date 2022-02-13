@@ -222,7 +222,7 @@ impl LightClientConfig {
 
     pub fn get_wallet_path(&self) -> Box<Path> {
         let mut wallet_location = self.get_zcash_data_path().into_path_buf();
-        wallet_location.push(DEFAULT_WALLET_FILENAME);
+        wallet_location.push(&self.wallet_filename.as_ref().unwrap());
 
         wallet_location.into_boxed_path()
     }
@@ -254,7 +254,7 @@ impl LightClientConfig {
 
     pub fn get_log_path(&self) -> Box<Path> {
         let mut log_path = self.get_zcash_data_path().into_path_buf();
-        log_path.push(DEFAULT_LOG_FILENAME);
+        log_path.push(&self.log_filename.as_ref().unwrap());
         //println!("LogFile:\n{}", log_path.to_str().unwrap());
 
         log_path.into_boxed_path()
