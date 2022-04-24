@@ -1,12 +1,13 @@
-pub fn get_closest_checkpoint(chain_name: &str, height: u64) ->  Option<(u64, &'static str, &'static str)> {
+pub fn get_closest_checkpoint(chain_name: &str, height: u64) -> Option<(u64, &'static str, &'static str)> {
+    log::info!("Trying to get checkpoint closest to block {}", height);
     match chain_name {
         "test" => get_test_checkpoint(height),
         "main" => get_main_checkpoint(height),
-        _      => None
+        _ => None,
     }
 }
 
-fn get_test_checkpoint(height: u64) ->  Option<(u64, &'static str, &'static str)> {
+fn get_test_checkpoint(height: u64) -> Option<(u64, &'static str, &'static str)> {
     let checkpoints: Vec<(u64, &str, &str)> = vec![
         (350000, "000cdb1eca1bb84e799e73a32a649a1eeec0a1a563d511dfaceaff69a8006527",
                  "017f968fad6321e5dde81a4d88a17d262193efccdbfd446f697e2775d25c0b2619014da62eafffb89e4766facabab67199c7fd37c14889d0cce6f9daf96f170ac0060f00017eeb2a8556c7714cbc2502ef958723c1491db8008c9f06858342096880c8333b0139bdb820c2339826cbc6ebc3e8ede79004f865d4d48233e74e21d0cf4821163200000001aac1d37ab43d4417be4e222962eadd77eff4a7475ef30dbcf45618c6da1c581b01ecd7df0652ebb31ec6ca03236491e5c77c4a9de6511ee2894ae09da1a7002b36000146539f39a920f96ffb9727f94721e26b73fd66aa63125c5a4f2884ecb4c9b11b000001dd960b6c11b157d1626f0768ec099af9385aea3f31c91111a8c5b899ffb99e6b0192acd61b1853311b0bf166057ca433e231c93ab5988844a09a91c113ebc58e18019fbfd76ad6d98cafa0174391546e7022afe62e870e20e16d57c4c419a5c2bb69"
@@ -19,9 +20,8 @@ fn get_test_checkpoint(height: u64) ->  Option<(u64, &'static str, &'static str)
     find_checkpoint(height, checkpoints)
 }
 
-
-fn get_main_checkpoint(height: u64) ->  Option<(u64, &'static str, &'static str)> {
-    let checkpoints: Vec<(u64, &str, &str)> = vec![
+pub fn get_all_main_checkpoints() -> Vec<(u64, &'static str, &'static str)> {
+    vec![
         (600000, "0000001b96cc88ed39865b79c0dbdee999e1252a56513e80f74d4147939bf451",
                  "01d3b69d0899d3b2a812c23def0c09aa7632cb0ec593299f4d8d6e545c36633f2f0011000001e162ba7da5a70ebaa528daf12cc93a2464385c19535ad18b79a71008746a176f01a5a8ce3bbd869afaecd611b25018ab16b53f5c7a8588846fbe26b5a66bbf7f540000012d365453fb59308f9c9665b294eb17293164c2cadad9e0c53d884e98e518b5410184b46404d973caa91670a844d689ca97f844b977dfe56c67ca1f0b4aaa2ab94200012be72e31d7db1eb1bff8c63308bbb70b8bdf597bcc8cfe9fe0e3cec0445e8d65000001e9dd3cb1e65da85f7e4dcd5479cb45a155a28795a873fa340b25a8b484ccc938019a7b8494c6dac00c1180ec6fd6765edca4f9616bcb5b1c0f8c58943dbfd93c380000011bcc61d2d87e7240c21da5f0f85fdb2d9b1806bf155da92e8f0d4de23932da08"
         ),
@@ -36,6 +36,7 @@ fn get_main_checkpoint(height: u64) ->  Option<(u64, &'static str, &'static str)
         ),
         (700000, "000001af200fda6d5778b8cdaf16e20c3e14da185e650efc9957b4bd73febbbc",
                  "0171b8ca66940c6287c5fe5673f5cbf88956f38246d736b0ed206e55644f153c5000120000000000011cfcd5b1c30cfa8868711c07cb77d2dc965716bed4ec55b52399108ff991b8430001c2b1d5fe1c648213f1aa816299990cf7f778186eb27941ef0c925d2a88cc912f01f28c52d13ef0be90f00dad5dadd597a627b70dcbbb20b4befa206e2210a4425a00000000016271aa76ac4f7f0548240b1b986c74b4c9350a2e12f46a5f9fba4b506a22834c000000018eb53ce1887c107647dd26dcbccb81844744a0f42a9f262d5f2cc6253a27ef6c"
+
         ),
         (740000, "0000009c8788f2cc05c491885d04ba7f69a767e1483cdac39a90d40b9217f44e",
                  "0181ab8ffc3eddcab5f30ff537658e5821b953004a6212ad276a466c6ba80e9112013c03721457c3d9fd6aebcc55d3664f577334b30d4042324959c715cb839d8949120001a9ec4ba32f6e5f089a2387e35449feae02596de4adc983aaba07b8a8afb1302d016265f2f33c9779d49f5413929e17cc5f6dbc3fc2d459cc073864671d7cd3cd3c01bf0ebff0f85e9202e5348391ea9bdc99eaf50f986b1e85d0fae5a6f9d8b2c42e0189a3781fcb1af5e09d6c62f68890fd0a18950ab5c5143e8184c3a7de1f8524220001532ae473cce9c10118078868098cf0e360478cfc893cb408a61b43e694bf851501f57e9ef590a1ce440575a79bb5b33c1aeac155994fffb0b4d1286d2400144e6601a539a6658e4e190abdebbe7a1488a2922f0cf1c699ace0cce192683586a2fe37000000000144ae242cf457a8dc1c783875b0028007fd1aa28187e6f254e1b6fe8b6b66432a016e887902f0da198f0978df6a2532046166bee9e57713216166b34b75f2b1e1690000018eb53ce1887c107647dd26dcbccb81844744a0f42a9f262d5f2cc6253a27ef6c"
@@ -98,33 +99,36 @@ fn get_main_checkpoint(height: u64) ->  Option<(u64, &'static str, &'static str)
                  "019e0412e67c017d33febfba16ba448d9f44b22b3bda466bf3e95e11feaadab86b001201063fa35b081314e274792b48766c596066fd767d226953297204565241fde854000001869c40fb0673628adc6efe0f6d0c9289a3a9300da82c908ba873dfaa9995585a01cbf86e0e46a523b80f54d921f5d5979f9a94e22a67be357dadac91549cffb34901838723138864201568bdf8202ab63fed074871f42948333fc211c1acb0a0cb120117ab09a815acf3e971638ad3daa8b96ef344690a263df706aed2d0f4e15de92f0000000001ed93da39badc6fb1b6a0fb5b084067427cb81a1f503c807e04bcb8318e1f760500000173563ca94c03d472638c497600ded846f2481b83c5bd5a03f5dd0eebd2415f210001c936f687cff9b2dc330d92b43533d9ed6fe0941c4d957a255b90717b5cc44c4c018eb53ce1887c107647dd26dcbccb81844744a0f42a9f262d5f2cc6253a27ef6c"),
         (960000, "0000079046db279a7ade4f1e261a7d20c3d3c53f5742dd55628e9e91b944e8ae",
                  "0192e77f741bbf65e588e7aa2f7c699722750f618b21813114ccd2d97a02df7d370140b1a76e1211f6997ba56c6aca7b712d365c5d7defe068eefda909f797aa253412014137fd720997818980a009107f252d45997f1eb523421565c26d003dfee06528012e4da45d699a6d13a8f392e35c29c6941ef077aa554ce2a7bec816870bd3360c019fca853fac74df7795d0ef9d154b747fe87eb64d563d160df8226c8d18660b360001302f5c409a3619123114ad3b3563686c3370ee337fc10511f4259667ea88c2670000019870a4dd9bfd99c620ca6ee014724e2bb67ab56b673a3053bcf6497465767040010829b384354cf80df4583eba303032aeaac9499ff6c16ca4bca7ca4299daa45e01c156639516caeed5ff81ada49d8669a330ce3bd2c281e796b3dcf4e8f86a9b7101686f6f30f3f8f909db31b6fefd39b9839ef3e5691dd67e7198dcaab4e0f52d3b01ed93da39badc6fb1b6a0fb5b084067427cb81a1f503c807e04bcb8318e1f760500000173563ca94c03d472638c497600ded846f2481b83c5bd5a03f5dd0eebd2415f210001c936f687cff9b2dc330d92b43533d9ed6fe0941c4d957a255b90717b5cc44c4c018eb53ce1887c107647dd26dcbccb81844744a0f42a9f262d5f2cc6253a27ef6c"),
-    ];
-
-    find_checkpoint(height, checkpoints)
+    ]
 }
 
-fn find_checkpoint(height: u64, chkpts: Vec<(u64, &'static str, &'static str)>) -> Option<(u64, &'static str, &'static str)> {
+fn get_main_checkpoint(height: u64) -> Option<(u64, &'static str, &'static str)> {
+    find_checkpoint(height, get_all_main_checkpoints())
+}
+
+fn find_checkpoint(
+    height: u64,
+    chkpts: Vec<(u64, &'static str, &'static str)>,
+) -> Option<(u64, &'static str, &'static str)> {
     // Find the closest checkpoint
     let mut heights = chkpts.iter().map(|(h, _, _)| *h as u64).collect::<Vec<_>>();
     heights.sort();
 
     match get_first_lower_than(height, heights) {
-        Some(closest_height) => {
-            chkpts.iter().find(|(h, _, _)| *h ==  closest_height).map(|t| *t)
-        },
-        None    => None
+        Some(closest_height) => chkpts.iter().find(|(h, _, _)| *h == closest_height).map(|t| *t),
+        None => None,
     }
 }
 
 fn get_first_lower_than(height: u64, heights: Vec<u64>) -> Option<u64> {
-    // If it's before the first checkpoint, return None. 
+    // If it's before the first checkpoint, return None.
     if heights.len() == 0 || height < heights[0] {
         return None;
     }
 
     for (i, h) in heights.iter().enumerate() {
         if height < *h {
-            return Some(heights[i-1]);
+            return Some(heights[i - 1]);
         }
     }
 
@@ -137,7 +141,7 @@ pub mod tests {
 
     #[test]
     fn test_lower_than() {
-        assert_eq!(get_first_lower_than( 9, vec![10, 30, 40]), None);
+        assert_eq!(get_first_lower_than(9, vec![10, 30, 40]), None);
         assert_eq!(get_first_lower_than(10, vec![10, 30, 40]).unwrap(), 10);
         assert_eq!(get_first_lower_than(11, vec![10, 30, 40]).unwrap(), 10);
         assert_eq!(get_first_lower_than(29, vec![10, 30, 40]).unwrap(), 10);
@@ -173,5 +177,4 @@ pub mod tests {
 
         
     }
-
 }
