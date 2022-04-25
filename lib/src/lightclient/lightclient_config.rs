@@ -22,7 +22,7 @@ use zcash_primitives::{
 
 use crate::{grpc_connector::GrpcConnector, lightclient::checkpoints};
 
-pub const DEFAULT_SERVER: &str = "https://lightwalletd2.ycash.xyz:1443";
+pub const DEFAULT_SERVER: &str = "https://ywallet.ycash.cl:9067";
 pub const DEFAULT_WALLET_FILENAME: &str    = "lite_wallet.dat";
 pub const DEFAULT_LOG_FILENAME: &str   = "lite_debug.log";
 pub const ANCHOR_OFFSET: [u32; 5] = [4, 0, 0, 0, 0];
